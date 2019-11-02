@@ -2,9 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+    safe,
+    danger,
+    death
+}
+
 public class FieldOfView : MonoBehaviour
 {
     #region Variables
+
+    [Header("Toggle Debug Lines")]
+    [SerializeField] bool lines = true;
 
     // main vectors
     private Vector3 playerPos;
@@ -25,8 +35,8 @@ public class FieldOfView : MonoBehaviour
     private Vector3 dangerFOVleft;
     private Vector3 dangerFOVright;
 
-    [Header("Toggle Debug Lines")]
-    [SerializeField] bool lines = true;
+    // playerState track
+    [SerializeField] PlayerState playerState = PlayerState.safe;
 
     #endregion
 
@@ -51,6 +61,9 @@ public class FieldOfView : MonoBehaviour
         {
             DebugLines();
         }
+
+        DetermineDanger();
+        FogHandle(playerState);
     }
 
     /// <summary>
@@ -97,5 +110,57 @@ public class FieldOfView : MonoBehaviour
 
         // actual forward
         Debug.DrawLine(playerPos, actualFowardVec, Color.yellow);
+    }
+
+    /// <summary>
+    /// Check players forward vector amongst others
+    /// </summary>
+    public void DetermineDanger()
+    {
+        // death
+        if (actualFowardVec.x > dangerFOVright.x || actualFowardVec.x < dangerFOVleft.x || actualFowardVec.z < lockedRightVec.z)
+        {
+            //Debug.Log("Death...");
+            playerState = PlayerState.death;
+        }
+
+        // red tint
+        else if (actualFowardVec.x >= safeFOVright.x && actualFowardVec.x <= dangerFOVright.x || actualFowardVec.x <= safeFOVleft.x && actualFowardVec.x >= dangerFOVleft.x)
+        {
+            //Debug.Log("Danger!!");
+            playerState = PlayerState.danger;
+        }
+
+        // normal screen tint
+        else
+        {
+            //Debug.Log("Safe...");
+            playerState = PlayerState.safe;
+        }
+    }
+
+    /// <summary>
+    /// Handles the fog in the game
+    /// </summary>
+    /// <param name="state"></param>
+    public void FogHandle(PlayerState state)
+    {
+        RenderSettings.fog = true;
+
+        if (state == PlayerState.safe)
+        {
+            RenderSettings.fogColor = Color.white;
+            RenderSettings.fogDensity = 0.1f;
+        }
+        else if (state == PlayerState.danger)
+        {
+            RenderSettings.fogColor = Color.red;
+            RenderSettings.fogDensity = 0.1f;
+        }
+        else if (state == PlayerState.death)
+        {
+            RenderSettings.fogColor = Color.black;
+            RenderSettings.fogDensity = 0.5f;
+        }
     }
 }
