@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4881771915097563707}
   - component: {fileID: 4531904416391976973}
   - component: {fileID: 7915083377908819188}
+  - component: {fileID: 3286469977344889018}
   m_Layer: 0
   m_Name: CeilingFBX
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8495143949844385832}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.4329114, y: -0.9447811, z: 3.5590682}
   m_LocalScale: {x: 627.6312, y: 44.27791, z: 627.6312}
   m_Children: []
@@ -77,3 +78,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &3286469977344889018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495143949844385832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.009999999, y: 0.009999999, z: 0.009999999}
+  m_Center: {x: 0, y: 0.000000007450581, z: 2.3283064e-10}
