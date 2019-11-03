@@ -177,7 +177,7 @@ public class FieldOfView : MonoBehaviour
         }
         else if (state == PlayerState.danger)
         {
-            RenderSettings.fogColor = Color.red;
+            RenderSettings.fogColor = new Color(0.5f, 0, 0, 1);
             RenderSettings.fogDensity = 0.1f;
         }
         else if (state == PlayerState.death || state == PlayerState.death)
