@@ -15,6 +15,12 @@ public class LifeTracker : MonoBehaviour
 
     public GameObject entity;
 
+    [Header("Sound Sources")]
+    [SerializeField] GameObject whisper1;
+    [SerializeField] GameObject whisper2;
+    [SerializeField] GameObject whisper3;
+    [SerializeField] GameObject jumpScare;
+
     #endregion
 
     // Start is called before the first frame update
@@ -31,7 +37,7 @@ public class LifeTracker : MonoBehaviour
         CheckChanges();
         prevGameState = gameState;
 
-        Debug.Log(lives);
+        //Debug.Log(lives);
     }
 
     /// <summary>
@@ -49,9 +55,20 @@ public class LifeTracker : MonoBehaviour
             // don't update it again
             changer = false;
 
+            // add in those whispers
+            if (lives == 2)
+            {
+                whisper2.GetComponent<AudioSource>().Play();
+            }
+            else if (lives == 1)
+            {
+                whisper3.GetComponent<AudioSource>().Play();
+            }
+
             // if dead
             if (lives == 0)
             {
+                jumpScare.GetComponent<AudioSource>().Play();
                 gameObject.GetComponent<FieldOfView>().playerState = PlayerState.gameOver;
             }
         }
