@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: c6f4575b8945c4740840203cfce84754
+  - enabled: 1
+    path: Assets/Scenes/KylerTest.unity
+    guid: 30d4a533b7a58b44d930a0a7a6df0c13
   m_configObjects: {}

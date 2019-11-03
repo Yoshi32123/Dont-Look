@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
 
     public void ExitGame()
     {
+        Debug.Log("Quitting Game...");
         Application.Quit();
     }
 }
