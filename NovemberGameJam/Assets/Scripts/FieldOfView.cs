@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public enum PlayerState
 {
     safe,
     danger,
-    death
+    death,
+    gameOver
 }
 
 public class FieldOfView : MonoBehaviour
@@ -35,8 +37,14 @@ public class FieldOfView : MonoBehaviour
     private Vector3 dangerFOVleft;
     private Vector3 dangerFOVright;
 
+    // x camera storage
+    public GameObject xCam;
+
     // playerState track
-    [SerializeField] PlayerState playerState = PlayerState.safe;
+    public PlayerState playerState = PlayerState.safe;
+
+    // fps controller script
+    
 
     #endregion
 
@@ -55,14 +63,28 @@ public class FieldOfView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateVectors();
+        if (playerState != PlayerState.gameOver)
+        {
+            UpdateVectors();
+            DetermineDanger();
+        }
+        else
+        {
+            Debug.Log("trying to change rotation...");
+
+            gameObject.GetComponent<FirstPersonController>().enabled = false;
+
+            transform.rotation = new Quaternion(transform.rotation.x, 180.0f, transform.rotation.z, transform.rotation.w);
+            xCam.transform.rotation = new Quaternion(0.0f, xCam.transform.rotation.y, xCam.transform.rotation.z, xCam.transform.rotation.w);
+            transform.position = playerPos;
+        }
+        
 
         if (lines)
         {
             DebugLines();
         }
 
-        DetermineDanger();
         FogHandle(playerState);
     }
 
@@ -157,7 +179,7 @@ public class FieldOfView : MonoBehaviour
             RenderSettings.fogColor = Color.red;
             RenderSettings.fogDensity = 0.1f;
         }
-        else if (state == PlayerState.death)
+        else if (state == PlayerState.death || state == PlayerState.death)
         {
             RenderSettings.fogColor = Color.black;
             RenderSettings.fogDensity = 0.5f;

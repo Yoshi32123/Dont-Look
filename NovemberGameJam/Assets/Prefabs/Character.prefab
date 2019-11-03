@@ -291,8 +291,10 @@ GameObject:
   - component: {fileID: 229176578243982979}
   - component: {fileID: 229176578258362371}
   - component: {fileID: 229176578255526531}
+  - component: {fileID: 2145925271}
+  - component: {fileID: 2145925272}
   m_Layer: 0
-  m_Name: FPSController
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,6 +570,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &2145925271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229176578255225699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9d11a7e0d050b4dac40d61a7df5c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lines: 1
+  xCam: {fileID: 229176578255225697}
+  playerState: 0
+--- !u!114 &2145925272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229176578255225699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db57a1c92efa7414caf7645370c24e31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 0}
 --- !u!1 &229176579153430426
 GameObject:
   m_ObjectHideFlags: 0
