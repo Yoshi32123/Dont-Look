@@ -63,9 +63,10 @@ public class FieldOfView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateVectors();
+
         if (playerState != PlayerState.gameOver)
         {
-            UpdateVectors();
             DetermineDanger();
         }
         else
@@ -74,8 +75,8 @@ public class FieldOfView : MonoBehaviour
 
             gameObject.GetComponent<FirstPersonController>().enabled = false;
 
-            transform.rotation = new Quaternion(transform.rotation.x, 180.0f, transform.rotation.z, transform.rotation.w);
-            xCam.transform.rotation = new Quaternion(0.0f, xCam.transform.rotation.y, xCam.transform.rotation.z, xCam.transform.rotation.w);
+            transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 1.0f);
+            xCam.transform.rotation = new Quaternion(0.0f, 180.0f, -20.0f, 1.0f);
             transform.position = playerPos;
         }
         
