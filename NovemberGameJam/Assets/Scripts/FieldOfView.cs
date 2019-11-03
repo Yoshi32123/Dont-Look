@@ -19,17 +19,17 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] bool lines = true;
 
     // main vectors
-    private Vector3 playerPos;
+    public Vector3 playerPos;
     private Vector3 lockedForwardVec;
     private Vector3 lockedUpVec;
     private Vector3 lockedRightVec;
     private Vector3 actualFowardVec;
 
     // unit vectors
-    private Vector3 degree45 = new Vector3(Mathf.Sin(Mathf.PI * 45 / 180), 0.0f, Mathf.Sin(Mathf.PI * 45 / 180));
-    private Vector3 negDegree45 = new Vector3(-Mathf.Sin(Mathf.PI * 45 / 180), 0.0f, Mathf.Sin(Mathf.PI * 45 / 180));
-    private Vector3 degree60 = new Vector3(Mathf.Sin(Mathf.PI * 60 / 180), 0.0f, Mathf.Cos(Mathf.PI * 60 / 180));
-    private Vector3 negDegree60 = new Vector3(-Mathf.Sin(Mathf.PI * 60 / 180), 0.0f, Mathf.Cos(Mathf.PI * 60 / 180));
+    private Vector3 safeDegreeRight = new Vector3(Mathf.Sin(Mathf.PI * 50 / 180), 0.0f, Mathf.Cos(Mathf.PI * 50 / 180));
+    private Vector3 safeDegreeLeft = new Vector3(-Mathf.Sin(Mathf.PI * 50 / 180), 0.0f, Mathf.Cos(Mathf.PI * 50 / 180));
+    private Vector3 dangerDegreeRight = new Vector3(Mathf.Sin(Mathf.PI * 90 / 180), 0.0f, Mathf.Cos(Mathf.PI * 90 / 180));
+    private Vector3 dangerDegreeLeft = new Vector3(-Mathf.Sin(Mathf.PI * 90 / 180), 0.0f, Mathf.Cos(Mathf.PI * 90 / 180));
 
     // fov vectors
     private Vector3 safeFOVleft;
@@ -43,8 +43,9 @@ public class FieldOfView : MonoBehaviour
     // playerState track
     public PlayerState playerState = PlayerState.safe;
 
-    // fps controller script
-    
+    // dont play sound more than once
+    public GameObject bass;
+    private bool bassPlaying;
 
     #endregion
 
@@ -58,6 +59,8 @@ public class FieldOfView : MonoBehaviour
         lockedUpVec = playerPos + new Vector3(0.0f, 5.0f, 0.0f);
         lockedForwardVec = playerPos + new Vector3(0.0f, 0.0f, 5.0f);
         lockedRightVec = playerPos + new Vector3(5.0f, 0.0f, 0.0f);
+
+        bassPlaying = false;
     }
 
     // Update is called once per frame
@@ -71,13 +74,25 @@ public class FieldOfView : MonoBehaviour
         }
         else
         {
-            Debug.Log("trying to change rotation...");
+            //Debug.Log("trying to change rotation...");
 
             gameObject.GetComponent<FirstPersonController>().enabled = false;
 
             transform.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 1.0f);
             xCam.transform.rotation = new Quaternion(0.0f, 180.0f, -20.0f, 1.0f);
             transform.position = playerPos;
+        }
+
+        // handles bass
+        if (playerState == PlayerState.danger && !bassPlaying)
+        {
+            bassPlaying = true;
+            bass.GetComponent<AudioSource>().Play();
+        }
+        else if (playerState != PlayerState.danger && playerState != PlayerState.death)
+        {
+            bass.GetComponent<AudioSource>().Stop();
+            bassPlaying = false;
         }
         
 
@@ -103,10 +118,10 @@ public class FieldOfView : MonoBehaviour
         lockedRightVec = playerPos + new Vector3(5.0f, 0.0f, 0.0f);
 
         // updating side vectors
-        safeFOVright = playerPos + (5 * degree45);
-        safeFOVleft = playerPos + (5 * negDegree45);
-        dangerFOVright = playerPos + (5 * degree60);
-        dangerFOVleft = playerPos + (5 * negDegree60);
+        safeFOVright = playerPos + (5 * safeDegreeRight);
+        safeFOVleft = playerPos + (5 * safeDegreeLeft);
+        dangerFOVright = playerPos + (5 * dangerDegreeRight);
+        dangerFOVleft = playerPos + (5 * dangerDegreeLeft);
 
         // storing the actual forward
         actualFowardVec = playerPos + (5 * transform.forward);

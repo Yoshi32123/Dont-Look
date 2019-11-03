@@ -13,6 +13,8 @@ public class LifeTracker : MonoBehaviour
     private PlayerState gameState;
     private PlayerState prevGameState;
 
+    private Vector3 spawn;
+
     public GameObject entity;
 
     [Header("Sound Sources")]
@@ -28,6 +30,7 @@ public class LifeTracker : MonoBehaviour
     {
         lives = 3;
         changer = false;
+        spawn = transform.position;
     }
 
     // Update is called once per frame
@@ -37,7 +40,7 @@ public class LifeTracker : MonoBehaviour
         CheckChanges();
         prevGameState = gameState;
 
-        //Debug.Log(lives);
+        Debug.Log(transform.position.x + ", " + transform.position.y + ", " + transform.position.z);
     }
 
     /// <summary>
@@ -68,6 +71,9 @@ public class LifeTracker : MonoBehaviour
             // if dead
             if (lives == 0)
             {
+                transform.position = spawn;
+                entity.GetComponent<EntityFollow>().UpdatePosition();
+
                 jumpScare.GetComponent<AudioSource>().Play();
                 gameObject.GetComponent<FieldOfView>().playerState = PlayerState.gameOver;
             }
