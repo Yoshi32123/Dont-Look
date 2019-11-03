@@ -72,6 +72,7 @@ public class LifeTracker : MonoBehaviour
             if (lives == 0)
             {
                 transform.position = spawn;
+                gameObject.GetComponent<FieldOfView>().playerPos = spawn;
                 entity.GetComponent<EntityFollow>().UpdatePosition();
 
                 jumpScare.GetComponent<AudioSource>().Play();
