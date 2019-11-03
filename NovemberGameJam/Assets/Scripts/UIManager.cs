@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("KylerTest");
+        SceneManager.LoadScene("Level1");
     }
 
     public void ExitGame()
